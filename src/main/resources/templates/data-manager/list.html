@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>MDM Data Manager</title>
+<link rel="stylesheet"
+    href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+    th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" />
+</head>
+<body>
+    <div class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">MDM Data Manager</a>
+        </div>
+        <p class="navbar-text pull-right">
+            <span th:text="${orsName}">ORS名</span>/<span
+                th:text="${baseObjectDispName}">BaseObject名</span>
+        </p>
+    </div>
+    <div class="container">
+        <form th:action="@{'/data-manager/'+${orsName}+'/'+${baseObjectName}+'/create'}" method="get">
+            <div class="form-group">
+                <input class="btn btn-default" type="submit"
+                    name="form" value="Create" />
+            </div>
+        </form>
+        <table class="table table-striped table-condensed">
+            <tr>
+                <th
+                    th:each="columnDefinition : ${columnDefinitions}"
+                    th:text="${columnDefinition.dispName}">ID</th>
+                <th th:remove="all">名前</th>
+                <th th:remove="all">電話番号</th>
+                <th colspan="2">Action</th>
+            </tr>
+            <tr th:each="record : ${baseObjectRecords}">
+                <td
+                    th:each="columnDefinition : ${columnDefinitions}"
+                    th:text="${record.getValue(columnDefinition.name)}">
+                    0001</td>
+                <td th:remove="all">ほげ太郎</td>
+                <td th:remove="all">03-0000-1111</td>
+                <td>
+                    <form th:action="@{'/data-manager/'+${orsName}+'/'+${baseObjectName}+'/edit'}" method="get">
+                        <input class="btn btn-default btn-xs"
+                            type="submit" name="form" value="Edit" /> <input
+                            type="hidden" name="id" th:value="${record.getValue('id')}" />
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{'/data-manager/'+${orsName}+'/'+${baseObjectName}+'/delete'}" method="post">
+                        <input class="btn btn-danger btn-xs"
+                            type="submit" value="Delete" /> <input
+                            type="hidden" name="id"
+                            th:value="${record.getValue('id')}" />
+                    </form>
+                </td>
+            </tr>
+            <tr th:remove="all">
+                <td>0002</td>
+                <td>ふが次郎</td>
+                <td>04-1111-2222</td>
+                <td>
+                    <form th:action="" method="get">
+                        <input class="btn btn-default btn-xs"
+                            type="submit" name="form" value="Edit" />
+                    </form>
+                </td>
+                <td>
+                    <form th:action="" method="post">
+                        <input class="btn btn-danger btn-xs"
+                            type="submit" value="Delete" />
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"
+        th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+    <script
+        src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
+        th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>

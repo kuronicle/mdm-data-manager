@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>MDM Data Manager</title>
+<link rel="stylesheet"
+    href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+    th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" />
+</head>
+<body>
+    <div class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">MDM Data Manager</a>
+        </div>
+        <p class="navbar-text pull-right">
+            <span th:text="${orsName}">ORS名</span>/<span
+                th:text="${baseObjectDispName}">BaseObject名</span>
+        </p>
+    </div>
+    <div class="container">
+        <form
+            th:action="@{'/data-manager/'+${orsName}+'/'+${baseObjectName}+'/create'}"
+            class="form-horizontal" method="post">
+            <fieldset>
+                <legend>Create</legend>
+                <div class="form-group"
+                    th:each="columnDefinition : ${columnDefinitions}">
+                    <label for="${columnDefinition.name}"
+                        class="col-sm-2 control-label"
+                        th:text="${columnDefinition.dispName}">ID</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="${columnDefinition.name}"
+                            name="id"
+                            th:name="${columnDefinition.name}"
+                            class="form-control"
+                            th:readonly="!${columnDefinition.isEditable()}" readonly="readonly" />
+                    </div>
+                </div>
+                <div th:remove="all" class="form-group">
+                    <label for="firstName"
+                        class="col-sm-2 control-label">名</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="firstName"
+                            name="firstName" class="form-control"
+                            />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" class="btn btn-default"
+                            name="goToList" value="Back" /> <input
+                            type="submit" class="btn btn-primary"
+                            value="Create" />
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
